@@ -1,0 +1,25 @@
+{
+  "name": "Zmart",
+  "version": "1.0.0",
+  "description": "Node.js &amp; MySQL Homework",
+  "main": "zmartCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zinc-glaze/Zmart.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zinc-glaze/Zmart/issues"
+  },
+  "homepage": "https://github.com/zinc-glaze/Zmart#readme",
+  "dependencies": {
+    "cli-table": "^0.3.1",
+    "inquirer": "^6.2.0",
+    "mysql": "^2.16.0"
+  }
+}
