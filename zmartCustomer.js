@@ -65,20 +65,24 @@ function customerPurchase() {
       customerPurchase();
       }
       else {
-        var newQuantity = parseFloat(res[userInput.id -1].stock_quantity - userInput.quantity);
+        var orderTotal = parseFloat(userInput.quantity * res[userInput.id - 1].price);
+        var newQuantity = parseInt(res[userInput.id -1].stock_quantity) - parseInt(userInput.quantity);
+        var productSales = parseFloat(res[userInput.id -1].product_sales) + parseFloat(orderTotal);
         connection.query(
           "UPDATE products SET ? WHERE ?",
           [
             {
+              product_sales: productSales,
               stock_quantity: newQuantity
             },
             {
+              item_id: userInput.id,
               item_id: userInput.id
             }
           ],
           function(error) {
             if (error) throw error;
-            console.log("\nTotal order amount: $" + (userInput.quantity * res[userInput.id - 1].price) + "\n");
+            console.log("\nTotal order amount: $" + orderTotal + "\n");
             connection.end();
           }
         );

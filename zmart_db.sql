@@ -9,6 +9,7 @@ CREATE TABLE products(
   department_name VARCHAR(45) NOT NULL,
   price DECIMAL (20,2) default 0,
   stock_quantity INT default 0,
+  product_sales DECIMAL (20,2) default 0,
   PRIMARY KEY (item_id)
 );
 
@@ -36,3 +37,10 @@ insert into products (product_name, department_name, price, stock_quantity)
 values ("Electronic Tuner", "Accessories", "40.00", 11);
 
 SELECT * FROM products;
+
+CREATE TABLE departments(
+  department_id INT NOT NULL AUTO_INCREMENT,
+  department_name VARCHAR(45) NOT NULL,
+  overhead_costs DECIMAL (20,2) default 0,
+  PRIMARY KEY (department_id)
+);
