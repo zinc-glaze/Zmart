@@ -1,5 +1,7 @@
+//require Inquirer package
 var inquirer = require("inquirer");
 
+//require mysql package and set up connection
 var mysql = require("mysql");
 var connection = mysql.createConnection({
   host: "localhost",
@@ -12,16 +14,16 @@ var connection = mysql.createConnection({
 //Table constructor
 var Table = require('cli-table');
 
-//Main process
+//Connect to db and list inventory
 connection.connect(function(err) {
   if (err) throw err;
-  start();
+  viewProducts();
 });
 
 
 
 //Functions
-function start() {
+function viewProducts() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
     // instantiate table
@@ -34,7 +36,15 @@ function start() {
       table.push([res[i].item_id, res[i].product_name, "$" + res[i].price]);
     }
     //print inventory
-    console.log(table.toString() + "\n");
+    console.log("\n" + table.toString() + "\n");
+    //call function
+    customerPurchase();
+  });
+}
+
+function customerPurchase() {
+  connection.query("SELECT * FROM products", function(err, res) {
+    if (err) throw err;
     //user input
     inquirer
     .prompt([
@@ -51,8 +61,8 @@ function start() {
     ])
     .then(function(userInput) {
       if (userInput.quantity > res[userInput.id -1].stock_quantity) {
-      console.log("\n<<Insufficient stock!>>\n");
-      start();
+      console.log("\nInsufficient stock! " + res[userInput.id -1].stock_quantity + " available.\n");
+      customerPurchase();
       }
       else {
         var newQuantity = parseFloat(res[userInput.id -1].stock_quantity - userInput.quantity);
