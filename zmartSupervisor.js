@@ -33,7 +33,7 @@ function menuOptions() {
   ])
   .then(function(res) {
     switch (res.option) {
-    case "View Products for Sale":
+    case "View Product Sales by Department":
       viewSalesByDept();
       break;
     
@@ -47,3 +47,38 @@ function menuOptions() {
     }
   });
 }
+
+function viewSalesByDept() {
+
+}
+
+function createDept() {
+  inquirer
+  .prompt([
+    {
+      type: "input",
+      message: "Enter the new department name:",
+      name: "department_name"
+    },
+    {
+      type: "input",
+      message: "Enter the department overhead costs:",
+      name: "overhead_costs"
+    }
+  ])
+  .then(function(res) {
+    var query = connection.query(
+      "INSERT INTO departments SET ?",
+      {
+        department_name: res.department_name,
+        overhead_costs: res.overhead_costs,
+      },
+      function(err, res) {
+        if (err) throw err;
+        console.log("New department added successfully!\n");
+        menuOptions();
+      }
+    );
+  });
+}
+

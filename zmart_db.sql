@@ -44,3 +44,5 @@ CREATE TABLE departments(
   overhead_costs DECIMAL (20,2) default 0,
   PRIMARY KEY (department_id)
 );
+
+SELECT * FROM departments;
