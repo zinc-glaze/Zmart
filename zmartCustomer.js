@@ -1,6 +1,6 @@
-var mysql = require("mysql");
 var inquirer = require("inquirer");
 
+var mysql = require("mysql");
 var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -15,13 +15,13 @@ var Table = require('cli-table');
 //Main process
 connection.connect(function(err) {
   if (err) throw err;
-  customer();
+  start();
 });
 
 
 
 //Functions
-function customer() {
+function start() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
     // instantiate table
@@ -31,7 +31,7 @@ function customer() {
     });
     //populate table
     for (i=0; i < res.length; i++) {
-      table.push([res[i].item_id, res[i].product_name, res[i].price]);
+      table.push([res[i].item_id, res[i].product_name, "$" + res[i].price]);
     }
     //print inventory
     console.log(table.toString() + "\n");
@@ -40,19 +40,19 @@ function customer() {
     .prompt([
       {
       type: "input",
-      message: "Enter the ID of the product you would like to buy.",
+      message: "Enter the ID of the product you would like to buy: ",
       name: "id"
       },
       {
       type: "input",
-      message: "Enter the quantity of this item you would like to purchase.",
+      message: "Enter the quantity of this item you would like to purchase: ",
       name: "quantity"
       }
     ])
     .then(function(userInput) {
       if (userInput.quantity > res[userInput.id -1].stock_quantity) {
-      console.log("Insufficient stock!");
-      return;
+      console.log("\n<<Insufficient stock!>>\n");
+      start();
       }
       else {
         var newQuantity = parseFloat(res[userInput.id -1].stock_quantity - userInput.quantity);
@@ -68,7 +68,7 @@ function customer() {
           ],
           function(error) {
             if (error) throw error;
-            console.log("Total order amount: " + (userInput.quantity * res[userInput.id - 1].price));
+            console.log("\nTotal order amount: $" + (userInput.quantity * res[userInput.id - 1].price) + "\n");
             connection.end();
           }
         );
@@ -76,6 +76,7 @@ function customer() {
     });
   });
 }
+
 
 
 
