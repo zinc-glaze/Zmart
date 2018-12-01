@@ -51,12 +51,24 @@ function customerPurchase() {
       {
       type: "input",
       message: "Enter the ID of the product you would like to buy: ",
-      name: "id"
+      name: "id",
+      validate: function(value) {
+        if (isNaN(value) === false) {
+          return true;
+        }
+        return false;
+        }
       },
       {
       type: "input",
       message: "Enter the quantity of this item you would like to purchase: ",
-      name: "quantity"
+      name: "quantity",
+      validate: function(value) {
+        if (isNaN(value) === false) {
+          return true;
+        }
+        return false;
+        }
       }
     ])
     .then(function(userInput) {
