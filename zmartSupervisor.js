@@ -49,7 +49,34 @@ function menuOptions() {
 }
 
 function viewSalesByDept() {
-
+  connection.query(
+    "SELECT departments.department_id, departments.department_name, departments.overhead_costs, products.product_sales FROM products RIGHT JOIN departments ON (products.department_name = departments.department_name) GROUP BY department_id ORDER BY departments.department_id", 
+    function(err, res) {
+      if (err) throw err;
+      // instantiate table
+      var table = new Table({
+        head: ['Department ID', 'Department Name', 'Overhead Costs', 'Product Sales', 'Total Profit'], 
+        colWidths: [16, 20, 18, 16, 16]
+      });
+      //populate table
+      for (var i=0; i < res.length; i++) {
+        //conditional in case no products exist for a department
+        if (!res[i].product_sales) {
+          var productSales = 0;
+        } else {
+          var productSales = res[i].product_sales;
+        }
+        //calculate total profit by department
+        var totalProfit = productSales - res[i].overhead_costs;
+        //push to table row
+        table.push([res[i].department_id, res[i].department_name, "$" + res[i].overhead_costs, "$" + productSales, "$" + totalProfit]);
+      }
+      //print table
+      console.log("\n" + table.toString() + "\n");
+      //call function
+      menuOptions();
+    }
+  );
 }
 
 function createDept() {
