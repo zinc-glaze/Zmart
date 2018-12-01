@@ -17,12 +17,33 @@ var Table = require('cli-table');
 //Connect to db and list inventory
 connection.connect(function(err) {
   if (err) throw err;
-  viewProducts();
+  menuOptions();
 });
 
-
-
 //Functions
+function menuOptions() {
+  inquirer
+  .prompt([
+    {
+      type: "list",
+      message: "What would you like to do?",
+      choices: ["Make a Purchase", "Quit Program"],
+      name: "option"
+    }
+  ])
+  .then(function(res) {
+    switch (res.option) {
+    case "Make a Purchase":
+      viewProducts();
+      break;
+    
+    case "Quit Program":
+      connection.end();
+      break;
+    }
+  });
+}
+
 function viewProducts() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
@@ -50,10 +71,10 @@ function customerPurchase() {
     .prompt([
       {
       type: "input",
-      message: "Enter the ID of the product you would like to buy: ",
+      message: "Enter the ID of the product you would like to buy:",
       name: "id",
       validate: function(value) {
-        if (isNaN(value) === false) {
+        if (isNaN(value) === false && value <= res.length && value >= 1) {
           return true;
         }
         return false;
@@ -61,7 +82,7 @@ function customerPurchase() {
       },
       {
       type: "input",
-      message: "Enter the quantity of this item you would like to purchase: ",
+      message: "Enter the quantity of this item you would like to purchase:",
       name: "quantity",
       validate: function(value) {
         if (isNaN(value) === false) {
@@ -95,7 +116,7 @@ function customerPurchase() {
           function(error) {
             if (error) throw error;
             console.log("\nTotal order amount: $" + orderTotal + "\n");
-            connection.end();
+            menuOptions();
           }
         );
       }
