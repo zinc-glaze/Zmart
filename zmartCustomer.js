@@ -21,6 +21,8 @@ connection.connect(function(err) {
 });
 
 //Functions
+
+//Main Menu
 function menuOptions() {
   inquirer
   .prompt([
@@ -44,6 +46,7 @@ function menuOptions() {
   });
 }
 
+//View Products
 function viewProducts() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
@@ -63,6 +66,7 @@ function viewProducts() {
   });
 }
 
+//Purchase Product
 function customerPurchase() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;

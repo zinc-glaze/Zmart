@@ -50,7 +50,8 @@ function menuOptions() {
 
 function viewSalesByDept() {
   connection.query(
-    "SELECT departments.department_id, departments.department_name, departments.overhead_costs, products.product_sales FROM products RIGHT JOIN departments ON (products.department_name = departments.department_name) GROUP BY department_id ORDER BY departments.department_id", 
+    // "SELECT departments.department_id, departments.department_name, departments.overhead_costs, products.product_sales FROM products RIGHT JOIN departments ON (products.department_name = departments.department_name) GROUP BY department_id ORDER BY departments.department_id", 
+    "SELECT departments.department_id, departments.department_name, departments.overhead_costs, products.product_sales FROM products RIGHT JOIN departments ON (products.department_name = departments.department_name) ORDER BY departments.department_id", 
     function(err, res) {
       if (err) throw err;
       // instantiate table
@@ -83,14 +84,20 @@ function createDept() {
   inquirer
   .prompt([
     {
-      type: "input",
-      message: "Enter the new department name:",
-      name: "department_name"
+    type: "input",
+    message: "Enter the new department name:",
+    name: "department_name"
     },
     {
-      type: "input",
-      message: "Enter the department overhead costs:",
-      name: "overhead_costs"
+    type: "input",
+    message: "Enter the department overhead costs:",
+    name: "overhead_costs",
+    validate: function(value) {
+      if (isNaN(value) === false) {
+        return true;
+      }
+      return false;
+      }
     }
   ])
   .then(function(res) {

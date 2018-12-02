@@ -103,12 +103,24 @@ function addInventory() {
       {
       type: "input",
       message: "Enter the ID of the product you would like to re-stock: ",
-      name: "id"
+      name: "id",
+      validate: function(value) {
+        if (isNaN(value) === false && value <= res.length && value >= 1) {
+          return true;
+        }
+        return false;
+        }
       },
       {
       type: "input",
       message: "Enter the quantity you would like to add to the stock: ",
-      name: "quantity"
+      name: "quantity",
+      validate: function(value) {
+        if (isNaN(value) === false) {
+          return true;
+        }
+        return false;
+        }
       }
     ])
     .then(function(userInput) {
