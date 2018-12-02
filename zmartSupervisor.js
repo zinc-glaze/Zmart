@@ -50,8 +50,7 @@ function menuOptions() {
 
 function viewSalesByDept() {
   connection.query(
-    // "SELECT departments.department_id, departments.department_name, departments.overhead_costs, products.product_sales FROM products RIGHT JOIN departments ON (products.department_name = departments.department_name) GROUP BY department_id ORDER BY departments.department_id", 
-    "SELECT departments.department_id, departments.department_name, departments.overhead_costs, products.product_sales FROM products RIGHT JOIN departments ON (products.department_name = departments.department_name) ORDER BY departments.department_id", 
+    "SELECT * FROM (SELECT department_id, department_name, overhead_costs FROM departments) AS dept RIGHT JOIN (SELECT department_name, SUM(product_sales) AS product_sales FROM products GROUP BY department_name) AS prod ON prod.department_name = dept.department_name", 
     function(err, res) {
       if (err) throw err;
       // instantiate table
@@ -62,13 +61,13 @@ function viewSalesByDept() {
       //populate table
       for (var i=0; i < res.length; i++) {
         //conditional in case no products exist for a department
-        if (!res[i].product_sales) {
+        if (!res[i].product_sales || res[i].product_sales === null ) {
           var productSales = 0;
         } else {
           var productSales = res[i].product_sales;
         }
         //calculate total profit by department
-        var totalProfit = productSales - res[i].overhead_costs;
+        var totalProfit = (productSales - res[i].overhead_costs).toFixed(2);
         //push to table row
         table.push([res[i].department_id, res[i].department_name, "$" + res[i].overhead_costs, "$" + productSales, "$" + totalProfit]);
       }
@@ -109,7 +108,7 @@ function createDept() {
       },
       function(err, res) {
         if (err) throw err;
-        console.log("New department added successfully!\n");
+        console.log("\nNew department added successfully!\n");
         menuOptions();
       }
     );

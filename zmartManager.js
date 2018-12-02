@@ -192,7 +192,7 @@ function addProduct() {
       },
       function(err, res) {
         if (err) throw err;
-        console.log("Your product was added successfully!\n");
+        console.log("\nYour product was added successfully!\n");
         menuOptions();
       }
     );
