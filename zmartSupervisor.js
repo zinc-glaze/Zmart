@@ -69,7 +69,7 @@ function viewSalesByDept() {
         //calculate total profit by department
         var totalProfit = (productSales - res[i].overhead_costs).toFixed(2);
         //push to table row
-        table.push([res[i].department_id, res[i].department_name, "$" + res[i].overhead_costs, "$" + productSales, "$" + totalProfit]);
+        table.push([res[i].department_id, res[i].department_name, "$" + res[i].overhead_costs.toFixed(2), "$" + productSales.toFixed(2), "$" + totalProfit]);
       }
       //print table
       console.log("\n" + table.toString() + "\n");
