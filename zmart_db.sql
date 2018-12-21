@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS Zmart_db;
-CREATE DATABASE Zmart_db;
+DROP DATABASE IF EXISTS zmart_db;
+CREATE DATABASE zmart_db;
 
-USE Zmart_db;
+USE zmart_db;
 
 CREATE TABLE products(
   item_id INT NOT NULL AUTO_INCREMENT,
