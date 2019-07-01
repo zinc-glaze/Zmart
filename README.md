@@ -1,5 +1,5 @@
-# Zmart Musical Instrument Emporium (Customer, Manager, and Supervisor Apps)
-## Node.js &amp; MySQL Homework
+# Zmart Musical Instrument Marketplace (Customer, Manager, and Supervisor Apps)
+## UNC Coding Bootcamp Node.js &amp; MySQL Homework  12-3-2018
 
 Screen capture videos of Zmart module functions:
 * https://drive.google.com/file/d/1GU5Q_ex4hc-i2D_dvwHYXv_MkXcPYL3w/view?usp=sharing
@@ -17,4 +17,8 @@ This app uses the following tools:
 
 Future development of the app will add:
   * Improved input validation
-  
+
+You must have Node.js installed to run this app. Install npm dependencies before running one of the following commands to use the 3 sales modules:
+  * node zmartCustomer.js
+  * node zmart Manager.js
+  * node zmart Supervisor.js
